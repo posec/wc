@@ -16,6 +16,12 @@ var exitStatus int
 func main() {
 
 	flag.Parse()
+	if !*cFlag && !*wFlag && !*lFlag {
+		*cFlag = true
+		*wFlag = true
+		*lFlag = true
+	}
+
 	args := flag.Args()
 	if len(args) == 0 {
 		args = []string{"-"}
@@ -75,5 +81,19 @@ func wc(filename string) {
 			}
 		}
 	}
-	fmt.Printf("\t%d\t%d\t%d\n", nBytes, nWords, nLines)
+
+	padSpace := ""
+	if *lFlag {
+		fmt.Printf("%s%d", padSpace, nLines)
+		padSpace = " "
+	}
+	if *wFlag {
+		fmt.Printf("%s%d", padSpace, nWords)
+		padSpace = " "
+	}
+	if *cFlag {
+		fmt.Printf("%s%d", padSpace, nBytes)
+		padSpace = " "
+	}
+	fmt.Printf("\n")
 }
